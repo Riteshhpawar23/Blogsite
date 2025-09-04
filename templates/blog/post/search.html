@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results - My Blog{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    {% if query %}
+    <h1>Search Results for "{{ query }}"</h1>
+    <p class="text-muted">Found {{ posts|length }} result{{ posts|length|pluralize }}</p>
+    {% else %}
+    <h1>Search Posts</h1>
+    <p class="text-muted">Enter a search term to find posts.</p>
+    {% endif %}
+</div>
+
+<!-- Search Form -->
+<div class="mb-4">
+    <form method="get" action="{% url 'blog:search' %}">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="Search posts...">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+{% for post in posts %}
+<article class="card mb-4">
+    {% if post.image %}
+    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+    {% endif %}
+    
+    <div class="card-body">
+        <h2 class="card-title">
+            <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+        </h2>
+        
+        <div class="text-muted mb-2">
+            <small>
+                By {{ post.author.get_full_name|default:post.author.username }} 
+                on {{ post.publish|date:"F d, Y" }} 
+                in <a href="{% url 'blog:category' post.category.slug %}" class="text-decoration-none">{{ post.category.name }}</a>
+            </small>
+        </div>
+        
+        <p class="card-text">
+            {% if post.excerpt %}
+                {{ post.excerpt }}
+            {% else %}
+                {{ post.content|truncatewords:30 }}
+            {% endif %}
+        </p>
+        
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            
+            <div>
+                {% for tag in post.tags.all %}
+                <span class="badge bg-secondary me-1">{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</article>
+{% empty %}
+<div class="alert alert-info">
+    <h4>No posts found!</h4>
+    <p>Try searching with different keywords or <a href="{% url 'blog:post_list' %}">browse all posts</a>.</p>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}
