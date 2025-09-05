@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Blog | Home</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom font for the entire page */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="#" class="text-2xl font-bold text-gray-900">MyBlog</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300 font-medium">Home</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300 font-medium">Home</a>
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <!-- Hero Section for Featured Post -->
+    <section class="relative bg-gray-800 text-white py-20 sm:py-32">
+        <div class="absolute inset-0">
+            <img src="https://placehold.co/1200x500/334155/e2e8f0?text=Featured+Post" 
+                 alt="Featured post background" 
+                 class="w-full h-full object-cover opacity-30">
+        </div>
+        <div class="relative container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Exploring the Wonders of Modern Web Development</h1>
+            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">A deep dive into the latest frameworks and technologies shaping the future of the web.</p>
+            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-lg">Read The Article</a>
+        </div>
+    </section>
+
+    <!-- Main Content Area with Blog Posts -->
+    <main class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Latest Posts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                
+                <!-- Blog Post Card 1 -->
+                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/400x250/60a5fa/ffffff?text=CSS+Tricks" 
+                         alt="Illustration for CSS tricks blog post" 
+                         class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">By Jane Doe on September 4, 2025</p>
+                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">10 CSS Tricks You Should Know</a></h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">Discover powerful CSS techniques that can help you create stunning layouts and effects with less code.</p>
+                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post Card 2 -->
+                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/400x250/facc15/333333?text=JavaScript" 
+                         alt="Illustration for JavaScript blog post" 
+                         class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">By John Smith on September 2, 2025</p>
+                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">A Beginner's Guide to JavaScript</a></h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">New to programming? This guide will walk you through the fundamental concepts of JavaScript from scratch.</p>
+                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
+                    </div>
+                </article>
+
+                <!-- Blog Post Card 3 -->
+                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                    <img src="https://placehold.co/400x250/4ade80/ffffff?text=UX+Design" 
+                         alt="Illustration for UX design blog post" 
+                         class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500 mb-2">By Emily White on August 30, 2025</p>
+                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">The Importance of UX in Design</a></h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">User Experience (UX) is crucial for success. Learn why it matters and how to improve your designs.</p>
+                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-gray-300 mt-10">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
+                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
+                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
+            </div>
+            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
