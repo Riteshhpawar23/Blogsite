@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | My Awesome Blog</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="index.html" class="text-2xl font-bold text-gray-900">MyBlog</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                <a href="about.html" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">About</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
+             <a href="index.html" class="block text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+             <a href="about.html" class="block text-blue-600 hover:text-blue-700 transition duration-300 font-medium">About</a>
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
+             <a href="#" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+        </div>
+    </header>
+
+    <!-- Main Content for About Page -->
+    <main>
+        <!-- Page Header -->
+        <section class="bg-blue-600 text-white py-16">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold">About MyBlog</h1>
+                <p class="text-lg md:text-xl text-blue-100 mt-4">Learn more about our journey, our mission, and the team behind the articles.</p>
+            </div>
+        </section>
+
+        <!-- Our Mission Section -->
+        <section class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://placehold.co/600x400/e0f2fe/0c4a6e?text=Our+Mission" alt="Team working collaboratively" class="rounded-lg shadow-xl">
+                </div>
+                <div class="prose max-w-none lg:prose-lg">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
+                    <p class="text-gray-600">
+                        At MyBlog, our mission is to demystify the world of technology and web development. We believe that knowledge should be accessible to everyone, from the curious beginner to the seasoned professional. We strive to create high-quality, engaging, and practical content that empowers our readers to learn, create, and innovate.
+                    </p>
+                    <p class="text-gray-600">
+                        We are passionate about building a community where developers can find reliable information, share their experiences, and grow their skills. Every article is crafted with care, ensuring it's not only informative but also inspiring.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Meet the Team Section -->
+        <section class="py-16 md:py-24 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Meet the Team</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
+                    
+                    <!-- Team Member 1 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                        <img src="https://placehold.co/150x150/a5b4fc/1e1b4b?text=Jane" alt="Jane Doe" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-200">
+                        <h3 class="text-xl font-bold text-gray-900">Jane Doe</h3>
+                        <p class="text-blue-600 font-medium mb-2">Founder & Lead Editor</p>
+                        <p class="text-gray-600">Jane is a full-stack developer with over a decade of experience in the tech industry. She started MyBlog to share her passion for clean code and elegant design.</p>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                        <img src="https://placehold.co/150x150/fca5a5/450a0a?text=John" alt="John Smith" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-red-200">
+                        <h3 class="text-xl font-bold text-gray-900">John Smith</h3>
+                        <p class="text-red-600 font-medium mb-2">JavaScript Specialist</p>
+                        <p class="text-gray-600">John lives and breathes JavaScript. He specializes in front-end frameworks and is dedicated to writing content that is both deep and easy to understand.</p>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                        <img src="https://placehold.co/150x150/86efac/052e16?text=Emily" alt="Emily White" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-green-200">
+                        <h3 class="text-xl font-bold text-gray-900">Emily White</h3>
+                        <p class="text-green-600 font-medium mb-2">UX/UI Designer</p>
+                        <p class="text-gray-600">With a keen eye for aesthetics and usability, Emily ensures that both our blog and the concepts we teach are presented in a beautiful and intuitive way.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
+                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
+                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
+            </div>
+            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
+
