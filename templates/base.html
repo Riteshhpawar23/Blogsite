@@ -22,6 +22,12 @@
                         <a class="nav-link" href="{% url 'blog:post_list' %}">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/">Admin</a>
                     </li>
                 </ul>
@@ -85,7 +91,16 @@
     <!-- Footer -->
     <footer class="bg-dark text-light text-center py-3 mt-5">
         <div class="container">
-            <p>&copy; 2025 My Blog. All rights reserved.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 My Blog. All rights reserved.</p>
+                </div>
+                <div class="col-md-6">
+                    <a href="{% url 'about' %}" class="text-light me-3">About</a>
+                    <a href="{% url 'contact' %}" class="text-light me-3">Contact</a>
+                    <a href="{% url 'privacy' %}" class="text-light">Privacy</a>
+                </div>
+            </div>
         </div>
     </footer>
 

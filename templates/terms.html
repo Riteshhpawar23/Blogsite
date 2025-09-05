@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Terms of Service - My Blog{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <h1>Terms of Service</h1>
+        <p class="text-muted">Last updated: September 2025</p>
+        
+        <h2>Acceptance of Terms</h2>
+        <p>
+            By accessing and using this blog, you accept and agree to be bound by the terms 
+            and provision of this agreement.
+        </p>
+        
+        <h2>Use License</h2>
+        <p>
+            Permission is granted to temporarily access the content on this blog for personal, 
+            non-commercial transitory viewing only.
+        </p>
+        
+        <h2>User Content</h2>
+        <p>
+            When you post comments or other content, you grant us the right to use, modify, 
+            and display that content in connection with our service.
+        </p>
+        
+        <h2>Prohibited Uses</h2>
+        <ul>
+            <li>Use the service for any unlawful purpose</li>
+            <li>Post spam, offensive, or inappropriate content</li>
+            <li>Attempt to gain unauthorized access</li>
+            <li>Violate any applicable laws or regulations</li>
+        </ul>
+        
+        <h2>Disclaimer</h2>
+        <p>
+            The information on this blog is provided on an 'as is' basis. We make no 
+            warranties, expressed or implied, and hereby disclaim all other warranties.
+        </p>
+        
+        <h2>Contact Information</h2>
+        <p>
+            If you have any questions about these Terms of Service, please 
+            <a href="{% url 'contact' %}">contact us</a>.
+        </p>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Key Points</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li>✓ Respectful behavior required</li>
+                    <li>✓ No spam or inappropriate content</li>
+                    <li>✓ Personal use only</li>
+                    <li>✓ Subject to change</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6>Questions?</h6>
+                <p class="small">
+                    Need clarification on any of these terms? 
+                    Feel free to <a href="{% url 'contact' %}">reach out</a> to us.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
