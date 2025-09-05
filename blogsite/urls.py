@@ -18,11 +18,26 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
+    
+    # Additional project-level views
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('contact/', views.contact_view, name='contact'),
+    path('privacy/', views.PrivacyPolicyView.as_view(), name='privacy'),
+    path('terms/', views.TermsView.as_view(), name='terms'),
+    
+    # API endpoints
+    path('api/search-suggestions/', views.search_suggestions, name='search_suggestions'),
+    path('api/stats/', views.blog_stats, name='blog_stats'),
 ]
+
+# Custom error handlers
+handler404 = 'blogsite.views.handler404'
+handler500 = 'blogsite.views.handler500'
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, 
