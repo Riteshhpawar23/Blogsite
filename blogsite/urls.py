@@ -30,6 +30,7 @@ urlpatterns = [
     
     # Additional project-level views
     path('about/', views.AboutView.as_view(), name='about'),
+    path('riyesh/', views.RiyeshView.as_view(), name='riyesh'),
     path('contact/', views.contact_view, name='contact'),
     path('privacy/', views.PrivacyPolicyView.as_view(), name='privacy'),
     path('terms/', views.TermsView.as_view(), name='terms'),

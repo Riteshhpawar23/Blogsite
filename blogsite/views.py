@@ -28,6 +28,15 @@ class AboutView(TemplateView):
         context['total_categories'] = Category.objects.count()
         return context
 
+class RiyeshView(TemplateView):
+    """Riyesh page view"""
+    template_name = 'riyesh.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Riyesh - Developer & Creator'
+        return context
+
 def contact_view(request):
     """Contact page with form handling"""
     if request.method == 'POST':
