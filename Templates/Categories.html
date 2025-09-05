@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Custom Stylesheets -->
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Categories.css' %}">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -19,7 +21,8 @@
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div>
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+                <link rel="stylesheet" href="{% static 'Categories.css' %}">
+                <link rel="stylesheet" href="{% static 'styles.css' %}">                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
