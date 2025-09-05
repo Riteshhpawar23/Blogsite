@@ -25,7 +25,7 @@
                 <a href="{% url 'categories' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
                 <a href="{% url 'contact' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
                 <a href="/admin/login/" class="text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-                <a href="{% url 'blog_list' %}" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create Blog</a>
+                <a href="{% url 'blog_list' %}" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create</a>
             </div>
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
@@ -41,17 +41,17 @@
              <a href="{% url 'categories' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
              <a href="{% url 'contact' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
              <a href="/admin/login/" class="block text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-             <a href="{% url 'blog_list' %}" class="block text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create Blog</a>
+             <a href="{% url 'blog_list' %}" class="block text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create</a>
         </div>
     </header>
 
-    <!-- Main Content for Blog Posts -->
+    <!-- Main Content for Blog Creation -->
     <main class="py-12">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-6 max-w-4xl">
             <!-- Page Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Latest Blog Posts</h1>
-                <p class="text-lg text-gray-600">Discover amazing content and insights from our writers</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Create Your Blog Post</h1>
+                <p class="text-lg text-gray-600">Share your thoughts and ideas with the world</p>
             </div>
 
             <!-- Success/Error Messages -->
@@ -71,157 +71,73 @@
                 </div>
             {% endif %}
 
-            <!-- Create Blog Section -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">Create New Blog Post</h2>
-                    <button id="toggle-form" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
-                        <span id="toggle-text">Show Form</span>
-                    </button>
-                </div>
-                
-                <div id="blog-form" class="hidden">
-                    <form method="POST" enctype="multipart/form-data" class="space-y-6">
-                        {% csrf_token %}
-                        
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.title.label }}</label>
-                                {{ form.title }}
-                                {% if form.title.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                            
-                            <div>
-                                <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.slug.label }}</label>
-                                {{ form.slug }}
-                                {% if form.slug.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.slug.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="{{ form.Author_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Author_name.label }}</label>
-                                {{ form.Author_name }}
-                                {% if form.Author_name.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.Author_name.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                            
-                            <div>
-                                <label for="{{ form.Category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Category.label }}</label>
-                                {{ form.Category }}
-                                {% if form.Category.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.Category.errors.0 }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
+            <!-- Create Form -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.content.label }}</label>
-                            {{ form.content }}
-                            {% if form.content.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.content.errors.0 }}</div>
+                            <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.title.label }}</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</div>
                             {% endif %}
                         </div>
                         
                         <div>
-                            <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.image.label }}</label>
-                            {{ form.image }}
-                            {% if form.image.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</div>
+                            <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.slug.label }}</label>
+                            {{ form.slug }}
+                            {% if form.slug.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.slug.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.Author_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Author_name.label }}</label>
+                            {{ form.Author_name }}
+                            {% if form.Author_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.Author_name.errors.0 }}</div>
                             {% endif %}
                         </div>
                         
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
-                                Create Blog Post
-                            </button>
+                        <div>
+                            <label for="{{ form.Category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Category.label }}</label>
+                            {{ form.Category }}
+                            {% if form.Category.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.Category.errors.0 }}</div>
+                            {% endif %}
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.content.label }}</label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <div class="text-red-600 text-sm mt-1">{{ form.content.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div>
+                        <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.image.label }}</label>
+                        {{ form.image }}
+                        {% if form.image.errors %}
+                            <div class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4">
+                        <a href="{% url 'home' %}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300 font-medium">
+                            Cancel
+                        </a>
+                        <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
+                            Create Post
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <!-- Blog Posts Grid -->
-            {% if blogs %}
-                <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-8">
-                    {% for post in blogs %}
-                        <article class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                            <!-- Blog Image -->
-                            {% if post.image %}
-                                <div class="h-48 bg-gray-200 overflow-hidden">
-                                    <img src="{{ post.image.url }}" alt="{{ post.title }}" 
-                                         class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                                </div>
-                            {% else %}
-                                <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                            
-                            <!-- Blog Content -->
-                            <div class="p-6">
-                                <!-- Category Badge -->
-                                <div class="mb-3">
-                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                                        {{ post.Category|title }}
-                                    </span>
-                                </div>
-                                
-                                <!-- Title -->
-                                <h2 class="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 transition-colors">
-                                    <a href="#" class="line-clamp-2">{{ post.title }}</a>
-                                </h2>
-                                
-                                <!-- Content Preview -->
-                                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                    {{ post.content|truncatewords:30 }}
-                                </p>
-                                
-                                <!-- Author and Date -->
-                                <div class="flex items-center justify-between text-sm text-gray-500">
-                                    <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>{{ post.Author_name }}</span>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
-                                        </svg>
-                                        <span>{{ post.date|date:"M d, Y" }}</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Read More Button -->
-                                <div class="mt-4">
-                                    <a href="#" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm">
-                                        Read More
-                                        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <!-- No Blog Posts Message -->
-                <div class="text-center py-16">
-                    <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <h3 class="text-2xl font-medium text-gray-900 mb-2">No Blog Posts Yet</h3>
-                    <p class="text-gray-600 mb-6">Be the first to create a blog post using the form above!</p>
-                </div>
-            {% endif %}
         </div>
     </main>
 
@@ -254,7 +170,7 @@
         }
     </style>
 
-    <!-- JavaScript for mobile menu toggle and form toggle -->
+    <!-- JavaScript for mobile menu toggle -->
     <script>
         // Mobile menu toggle
         const menuBtn = document.getElementById('menu-btn');
@@ -262,20 +178,6 @@
 
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-        });
-
-        // Blog form toggle
-        const toggleFormBtn = document.getElementById('toggle-form');
-        const blogForm = document.getElementById('blog-form');
-        const toggleText = document.getElementById('toggle-text');
-
-        toggleFormBtn.addEventListener('click', () => {
-            blogForm.classList.toggle('hidden');
-            if (blogForm.classList.contains('hidden')) {
-                toggleText.textContent = 'Show Form';
-            } else {
-                toggleText.textContent = 'Hide Form';
-            }
         });
     </script>
 
