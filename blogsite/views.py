@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -7,6 +7,12 @@ from django.conf import settings
 from django.db import models
 from blog.models import Post, Category
 from django.db.models import Count
+from django.http import HttpResponse
+
+
+def home(request):
+    return render(request, 'ritesh.html')
+
 
 def home_redirect(request):
     """Redirect to blog homepage"""

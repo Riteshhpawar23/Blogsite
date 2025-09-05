@@ -20,9 +20,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
+    path('ritesh/', views.home, name='home'),
     
     # Additional project-level views
     path('about/', views.AboutView.as_view(), name='about'),
