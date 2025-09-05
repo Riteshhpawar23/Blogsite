@@ -15,35 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from . import views
-
-
-
+from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('blog.urls', namespace='blog')),
-    path('ritesh/', views.home, name='home'),
-    
-    # Additional project-level views
-    path('about/', views.AboutView.as_view(), name='about'),
-    path('riyesh/', views.RiyeshView.as_view(), name='riyesh'),
-    path('contact/', views.contact_view, name='contact'),
-    path('privacy/', views.PrivacyPolicyView.as_view(), name='privacy'),
-    path('terms/', views.TermsView.as_view(), name='terms'),
-    
-    # API endpoints
-    path('api/search-suggestions/', views.search_suggestions, name='search_suggestions'),
-    path('api/stats/', views.blog_stats, name='blog_stats'),
 ]
-
-# Custom error handlers
-handler404 = 'blogsite.views.handler404'
-handler500 = 'blogsite.views.handler500'
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, 
-                         document_root=settings.MEDIA_ROOT)
