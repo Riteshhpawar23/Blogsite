@@ -1,11 +1,14 @@
 from django.shortcuts import render 
 from django.contrib import messages
+from blog.models import create_blog
 
 
 def home(request):
-    """Render the home page"""
+    """Render the home page with latest blog posts"""
+    # Get latest 6 blog posts for the home page
+    latest_blogs = create_blog.objects.all().order_by('-date')[:6]
     
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'latest_blogs': latest_blogs})
 
 def about(request):
     """Render the about page"""

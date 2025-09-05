@@ -78,48 +78,67 @@
     <main class="py-16">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Latest Posts</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            
+            {% if latest_blogs %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    {% for post in latest_blogs %}
+                        <!-- Blog Post Card -->
+                        <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" 
+                                     alt="{{ post.title }}" 
+                                     class="w-full h-56 object-cover">
+                            {% else %}
+                                <div class="w-full h-56 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            {% endif %}
+                            
+                            <div class="p-6">
+                                <div class="flex items-center mb-2">
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2">
+                                        {{ post.Category|title }}
+                                    </span>
+                                    <p class="text-sm text-gray-500">{{ post.date|date:"M d, Y" }}</p>
+                                </div>
+                                
+                                <p class="text-sm text-gray-500 mb-2">By {{ post.Author_name }}</p>
+                                
+                                <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300">
+                                    <a href="#" class="line-clamp-2">{{ post.title }}</a>
+                                </h3>
+                                
+                                <p class="text-gray-600 leading-relaxed mb-4 line-clamp-3">
+                                    {{ post.content|truncatewords:20 }}
+                                </p>
+                                
+                                <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
                 
-                <!-- Blog Post Card 1 -->
-                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                    <img src="https://placehold.co/400x250/60a5fa/ffffff?text=CSS+Tricks" 
-                         alt="Illustration for CSS tricks blog post" 
-                         class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-gray-500 mb-2">By Jane Doe on September 4, 2025</p>
-                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">10 CSS Tricks You Should Know</a></h3>
-                        <p class="text-gray-600 leading-relaxed mb-4">Discover powerful CSS techniques that can help you create stunning layouts and effects with less code.</p>
-                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- Blog Post Card 2 -->
-                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                    <img src="https://placehold.co/400x250/facc15/333333?text=JavaScript" 
-                         alt="Illustration for JavaScript blog post" 
-                         class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-gray-500 mb-2">By John Smith on September 2, 2025</p>
-                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">A Beginner's Guide to JavaScript</a></h3>
-                        <p class="text-gray-600 leading-relaxed mb-4">New to programming? This guide will walk you through the fundamental concepts of JavaScript from scratch.</p>
-                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
-                    </div>
-                </article>
-
-                <!-- Blog Post Card 3 -->
-                <article class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                    <img src="https://placehold.co/400x250/4ade80/ffffff?text=UX+Design" 
-                         alt="Illustration for UX design blog post" 
-                         class="w-full h-56 object-cover">
-                    <div class="p-6">
-                        <p class="text-sm text-gray-500 mb-2">By Emily White on August 30, 2025</p>
-                        <h3 class="text-xl font-bold mb-3 hover:text-blue-600 transition duration-300"><a href="#">The Importance of UX in Design</a></h3>
-                        <p class="text-gray-600 leading-relaxed mb-4">User Experience (UX) is crucial for success. Learn why it matters and how to improve your designs.</p>
-                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition duration-300">Read More &rarr;</a>
-                    </div>
-                </article>
-
-            </div>
+                <!-- View All Posts Button -->
+                <div class="text-center mt-12">
+                    <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                        View All Posts
+                    </a>
+                </div>
+            {% else %}
+                <!-- No Blog Posts Message -->
+                <div class="text-center py-16">
+                    <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <h3 class="text-2xl font-medium text-gray-900 mb-2">No Blog Posts Yet</h3>
+                    <p class="text-gray-600 mb-6">Be the first to create a blog post!</p>
+                    <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                        Create Your First Post
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </main>
 
@@ -144,6 +163,22 @@
             mobileMenu.classList.toggle('hidden');
         });
     </script>
+
+    <!-- Add CSS for line-clamp utilities -->
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 
 </body>
 </html>
