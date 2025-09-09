@@ -1,0 +1,11 @@
+# Ignore virtual environment folder
+venv/
+
+# Ignore migrations folder
+*/migrations/
+
+# Ignore media uploads folder
+media/
+
+# Ignore all log folders
+logs/
