@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog Post | MyBlog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
+                <a href="{% url 'about' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
+                <a href="{% url 'categories' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
+                <a href="{% url 'contact' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
+                <a href="{% url 'blog_list' %}" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">All Posts</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <!-- Back Button -->
+            <div class="mb-6">
+                <a href="{% url 'blog_detail' blog.slug %}" 
+                   class="inline-flex items-center text-blue-600 hover:text-blue-800 transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Back to Post
+                </a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="p-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-8">Edit Blog Post</h1>
+                    
+                    {% if messages %}
+                        <div class="mb-6">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} px-4 py-3 rounded-lg mb-3 {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-200{% elif message.tags == 'success' %}bg-green-100 text-green-700 border border-green-200{% else %}bg-blue-100 text-blue-700 border border-blue-200{% endif %}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.title.label }}</label>
+                                {{ form.title }}
+                                {% if form.title.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.slug.label }}</label>
+                                {{ form.slug }}
+                                {% if form.slug.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.slug.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="{{ form.Author_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Author_name.label }}</label>
+                                {{ form.Author_name }}
+                                {% if form.Author_name.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.Author_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ form.Category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Category.label }}</label>
+                                {{ form.Category }}
+                                {% if form.Category.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.Category.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.content.label }}</label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.content.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.image.label }}</label>
+                            {% if blog.image_url %}
+                                <div class="mb-3">
+                                    <img src="{{ blog.image_url }}" alt="Current image" class="w-32 h-32 object-cover rounded-lg border">
+                                    <p class="text-sm text-gray-500 mt-1">Current image (upload new to replace)</p>
+                                </div>
+                            {% elif blog.image %}
+                                <div class="mb-3">
+                                    <img src="http://127.0.0.1:8000{{ blog.image }}" alt="Current image" class="w-32 h-32 object-cover rounded-lg border">
+                                    <p class="text-sm text-gray-500 mt-1">Current image (upload new to replace)</p>
+                                </div>
+                            {% endif %}
+                            {{ form.image }}
+                            {% if form.image.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex justify-end space-x-4 pt-6">
+                            <a href="{% url 'blog_detail' blog.slug %}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300 font-medium">
+                                Cancel
+                            </a>
+                            <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                                Update Post
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-gray-300 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
+                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
+                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
+            </div>
+            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

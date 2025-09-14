@@ -255,6 +255,141 @@ def blog_detail(request, slug):
     })
 
 
+def blog_edit(request, slug):
+    """
+    Edit a blog post via API
+    """
+    # Get blog from API by slug
+    try:
+        response = requests.get(f"{REST_API_BASE_URL}/blogs/slug/{slug}/", timeout=10)
+        if response.status_code == 200:
+            blog = response.json()
+        else:
+            # Try to get all blogs and find by slug
+            api_data = get_blogs_from_api()
+            blogs = []
+            if api_data and 'results' in api_data:
+                blogs = api_data['results']
+            elif api_data and isinstance(api_data, list):
+                blogs = api_data
+            
+            blog = None
+            for b in blogs:
+                if b.get('slug') == slug:
+                    blog = b
+                    break
+            
+            if not blog:
+                messages.error(request, 'Blog post not found.')
+                return redirect('blog_list')
+    except requests.RequestException:
+        messages.error(request, 'Error connecting to API.')
+        return redirect('blog_list')
+    
+    if request.method == 'POST':
+        # Handle blog update
+        form = BlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Send update to REST API
+            blog_data = {
+                'title': form.cleaned_data['title'],
+                'slug': form.cleaned_data['slug'],
+                'Author_name': form.cleaned_data['Author_name'],
+                'content': form.cleaned_data['content'],
+                'Category': form.cleaned_data['Category'],
+            }
+            
+            # Handle image
+            files = {}
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                files['image'] = (image_file.name, image_file.read(), image_file.content_type)
+            
+            try:
+                # Send PUT request to REST API
+                response = requests.put(
+                    f"{REST_API_BASE_URL}/blogs/{blog.get('id')}/",
+                    data=blog_data,
+                    files=files if files else None,
+                    timeout=10
+                )
+                
+                if response.status_code in [200, 201]:
+                    messages.success(request, 'Blog post updated successfully!')
+                    return redirect('blog_detail', slug=form.cleaned_data['slug'])
+                else:
+                    messages.error(request, f'Failed to update blog post: {response.status_code}')
+                    
+            except requests.RequestException as e:
+                messages.error(request, f'Error connecting to API: {str(e)}')
+            
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        # Pre-populate form with existing data
+        form = BlogForm(initial={
+            'title': blog.get('title', ''),
+            'slug': blog.get('slug', ''),
+            'Author_name': blog.get('Author_name', ''),
+            'content': blog.get('content', ''),
+            'Category': blog.get('Category', ''),
+        })
+    
+    return render(request, 'blog/edit.html', {
+        'form': form,
+        'blog': blog,
+        'api_mode': True
+    })
+
+
+def blog_delete(request, slug):
+    """
+    Delete a blog post via API
+    """
+    if request.method == 'POST':
+        # Get blog ID first
+        try:
+            response = requests.get(f"{REST_API_BASE_URL}/blogs/slug/{slug}/", timeout=10)
+            if response.status_code == 200:
+                blog = response.json()
+                blog_id = blog.get('id')
+            else:
+                # Try to get all blogs and find by slug
+                api_data = get_blogs_from_api()
+                blogs = []
+                if api_data and 'results' in api_data:
+                    blogs = api_data['results']
+                elif api_data and isinstance(api_data, list):
+                    blogs = api_data
+                
+                blog = None
+                for b in blogs:
+                    if b.get('slug') == slug:
+                        blog = b
+                        blog_id = b.get('id')
+                        break
+                
+                if not blog:
+                    messages.error(request, 'Blog post not found.')
+                    return redirect('blog_list')
+            
+            # Send DELETE request to REST API
+            delete_response = requests.delete(
+                f"{REST_API_BASE_URL}/blogs/{blog_id}/",
+                timeout=10
+            )
+            
+            if delete_response.status_code in [200, 204]:
+                messages.success(request, 'Blog post deleted successfully!')
+            else:
+                messages.error(request, f'Failed to delete blog post: {delete_response.status_code}')
+                
+        except requests.RequestException as e:
+            messages.error(request, f'Error connecting to API: {str(e)}')
+    
+    return redirect('blog_list')
+
+
 def blog_category(request, category):
     """
     Display blogs filtered by category
