@@ -125,6 +125,18 @@ def blog_list(request):
     elif api_data and isinstance(api_data, list):
         blogs = api_data
     
+    # Process image URLs for each blog
+    for blog in blogs:
+        if blog.get('image') and not blog.get('image_url'):
+            # If no image_url but has image, construct the full URL
+            image_path = blog['image']
+            if image_path.startswith('/'):
+                blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
+            elif not image_path.startswith('http'):
+                blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
+            else:
+                blog['image_url'] = image_path
+    
     # Filter by category if provided (client-side filtering)
     category = request.GET.get('category')
     if category and blogs:
@@ -196,6 +208,16 @@ def blog_detail(request, slug):
         messages.error(request, 'Error connecting to API.')
         return redirect('blog_list')
     
+    # Process image URL for the main blog
+    if blog and blog.get('image') and not blog.get('image_url'):
+        image_path = blog['image']
+        if image_path.startswith('/'):
+            blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
+        elif not image_path.startswith('http'):
+            blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
+        else:
+            blog['image_url'] = image_path
+    
     # Get related blogs (same category, excluding current blog)
     related_blogs = []
     try:
@@ -212,6 +234,17 @@ def blog_detail(request, slug):
             b for b in all_blogs 
             if b.get('Category') == current_category and b.get('slug') != slug
         ][:3]  # Limit to 3 related blogs
+        
+        # Process image URLs for related blogs
+        for rel_blog in related_blogs:
+            if rel_blog.get('image') and not rel_blog.get('image_url'):
+                image_path = rel_blog['image']
+                if image_path.startswith('/'):
+                    rel_blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
+                elif not image_path.startswith('http'):
+                    rel_blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
+                else:
+                    rel_blog['image_url'] = image_path
     except:
         pass
     

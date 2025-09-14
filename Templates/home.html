@@ -118,8 +118,12 @@
                     {% for post in latest_blogs %}
                         <!-- Blog Post Card -->
                         <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                            {% if post.image %}
-                                <img src="{{ post.image.url }}" 
+                            {% if post.image_url %}
+                                <img src="{{ post.image_url }}" 
+                                     alt="{{ post.title }}" 
+                                     class="w-full h-56 object-cover">
+                            {% elif post.image %}
+                                <img src="http://127.0.0.1:8000{{ post.image }}" 
                                      alt="{{ post.title }}" 
                                      class="w-full h-56 object-cover">
                             {% else %}

@@ -94,8 +94,10 @@
                     <div class="blog-content">
                         {{ blog.content|truncatewords:30 }}
                     </div>
-                    {% if blog.image %}
-                        <img src="{{ blog.image }}" alt="{{ blog.title }}" style="max-width: 100%; height: auto; margin-top: 10px;">
+                    {% if blog.image_url %}
+                        <img src="{{ blog.image_url }}" alt="{{ blog.title }}" style="max-width: 100%; height: auto; margin-top: 10px;">
+                    {% elif blog.image %}
+                        <img src="http://127.0.0.1:8000{{ blog.image }}" alt="{{ blog.title }}" style="max-width: 100%; height: auto; margin-top: 10px;">
                     {% endif %}
                 </div>
                 {% endfor %}

@@ -27,6 +27,17 @@ def home(request):
             latest_blogs = api_data['results'][:6]
         elif api_data and isinstance(api_data, list):
             latest_blogs = api_data[:6]
+        
+        # Process image URLs for each blog
+        for blog in latest_blogs:
+            if blog.get('image') and not blog.get('image_url'):
+                image_path = blog['image']
+                if image_path.startswith('/'):
+                    blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
+                elif not image_path.startswith('http'):
+                    blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
+                else:
+                    blog['image_url'] = image_path
     except:
         # If API fails, show empty list
         latest_blogs = []
