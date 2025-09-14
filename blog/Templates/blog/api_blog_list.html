@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API Blog Integration</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .form-section { background: #f4f4f4; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .blog-card { background: white; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .blog-title { color: #333; margin: 0 0 10px 0; }
+        .blog-meta { color: #666; font-size: 0.9em; margin-bottom: 10px; }
+        .blog-content { color: #444; line-height: 1.6; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
+        .btn { background: #007cba; color: white; padding: 10px 20px; border: none; border-radius: 3px; cursor: pointer; }
+        .btn:hover { background: #005a87; }
+        .messages { margin: 20px 0; }
+        .alert { padding: 10px; margin: 5px 0; border-radius: 3px; }
+        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .api-info { background: #e7f3ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .nav-links { margin-bottom: 20px; }
+        .nav-links a { margin-right: 15px; color: #007cba; text-decoration: none; }
+        .nav-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="{% url 'blog_list' %}">← Back to Local Blogs</a>
+            <a href="{% url 'sync_blogs_to_api' %}">Sync Local to API</a>
+        </div>
+        
+        <h1>REST API Blog Integration</h1>
+        
+        <div class="api-info">
+            <strong>API URL:</strong> {{ api_url }}/blogs/<br>
+            <strong>Note:</strong> This page creates blogs directly in the REST API database (Rest_main).
+        </div>
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="form-section">
+            <h2>Create New Blog (Direct to REST API)</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                </div>
+                <div class="form-group">
+                    <label for="id_slug">Slug:</label>
+                    {{ form.slug }}
+                </div>
+                <div class="form-group">
+                    <label for="id_Author_name">Author Name:</label>
+                    {{ form.Author_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_content">Content:</label>
+                    {{ form.content }}
+                </div>
+                <div class="form-group">
+                    <label for="id_image">Image:</label>
+                    {{ form.image }}
+                </div>
+                <div class="form-group">
+                    <label for="id_Category">Category:</label>
+                    {{ form.Category }}
+                </div>
+                <button type="submit" class="btn">Create Blog Post</button>
+            </form>
+        </div>
+        
+        <h2>Blogs from REST API</h2>
+        {% if blogs %}
+            <div class="blog-grid">
+                {% for blog in blogs %}
+                <div class="blog-card">
+                    <h3 class="blog-title">{{ blog.title }}</h3>
+                    <div class="blog-meta">
+                        By {{ blog.Author_name }} | {{ blog.Category }} | {{ blog.date|date:"M d, Y" }}
+                    </div>
+                    <div class="blog-content">
+                        {{ blog.content|truncatewords:30 }}
+                    </div>
+                    {% if blog.image %}
+                        <img src="{{ blog.image }}" alt="{{ blog.title }}" style="max-width: 100%; height: auto; margin-top: 10px;">
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No blogs found in REST API. Create one above to test the integration!</p>
+        {% endif %}
+    </div>
+</body>
+</html>
