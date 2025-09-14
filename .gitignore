@@ -9,3 +9,8 @@ media/
 
 # Ignore all log folders
 logs/
+
+__pycache__/*.pyc
+*.log
+
+db.sqlite3
