@@ -72,22 +72,43 @@ def get_blogs_from_api():
 
 def blog_list(request):
     """
-    Display list of all blog posts with pagination and filtering
+    Display list of all blog posts from REST API with pagination and filtering
     """
     if request.method == 'POST':
-        # Handle blog creation - send to REST API
+        # Create blog directly through REST API (no local save)
         form = BlogForm(request.POST, request.FILES)
         if form.is_valid():
-            # Save locally first
-            blog_instance = form.save()
+            # Send directly to REST API without local save
+            blog_data = {
+                'title': form.cleaned_data['title'],
+                'slug': form.cleaned_data['slug'],
+                'Author_name': form.cleaned_data['Author_name'],
+                'content': form.cleaned_data['content'],
+                'Category': form.cleaned_data['Category'],
+            }
             
-            # Also send to REST API
-            success = send_blog_to_api(blog_instance, request.FILES.get('image'))
+            # Handle image
+            files = {}
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                files['image'] = (image_file.name, image_file.read(), image_file.content_type)
             
-            if success:
-                messages.success(request, 'Blog post created successfully and synced to API!')
-            else:
-                messages.warning(request, 'Blog post created locally, but failed to sync to API.')
+            try:
+                # Send directly to REST API
+                response = requests.post(
+                    f"{REST_API_BASE_URL}/blogs/",
+                    data=blog_data,
+                    files=files if files else None,
+                    timeout=10
+                )
+                
+                if response.status_code in [200, 201]:
+                    messages.success(request, 'Blog post created successfully!')
+                else:
+                    messages.error(request, f'Failed to create blog post: {response.status_code}')
+                    
+            except requests.RequestException as e:
+                messages.error(request, f'Error connecting to API: {str(e)}')
             
             return redirect('blog_list')
         else:
@@ -95,30 +116,43 @@ def blog_list(request):
     else:
         form = BlogForm()
     
-    # Get all blog posts from local database
-    blogs = create_blog.objects.all().order_by('-date')
+    # Get all blog posts from REST API instead of local database
+    api_data = get_blogs_from_api()
+    blogs = []
     
-    # Filter by category if provided
+    if api_data and 'results' in api_data:
+        blogs = api_data['results']
+    elif api_data and isinstance(api_data, list):
+        blogs = api_data
+    
+    # Filter by category if provided (client-side filtering)
     category = request.GET.get('category')
-    if category:
-        blogs = blogs.filter(Category__icontains=category)
+    if category and blogs:
+        blogs = [blog for blog in blogs if blog.get('Category', '').lower() == category.lower()]
     
-    # Search functionality
+    # Search functionality (client-side filtering)
     search_query = request.GET.get('search')
-    if search_query:
-        blogs = blogs.filter(
-            Q(title__icontains=search_query) |
-            Q(content__icontains=search_query) |
-            Q(Author_name__icontains=search_query)
-        )
+    if search_query and blogs:
+        search_lower = search_query.lower()
+        blogs = [
+            blog for blog in blogs 
+            if search_lower in blog.get('title', '').lower() or 
+               search_lower in blog.get('content', '').lower() or 
+               search_lower in blog.get('Author_name', '').lower()
+        ]
     
-    # Pagination
+    # Simple pagination for API data
+    from django.core.paginator import Paginator
     paginator = Paginator(blogs, 6)  # Show 6 blogs per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    # Get categories for filter dropdown
-    categories = [choice[0] for choice in create_blog.typeofblog]
+    # Get categories from model choices (since we can't query API for this)
+    try:
+        categories = [choice[0] for choice in create_blog.typeofblog]
+    except:
+        # Fallback categories if model is not available
+        categories = ['web development', 'programming', 'technology', 'news', 'entertainment', 'sports', 'travel', 'lifestyle', 'javascripts']
     
     return render(request, 'blog/index.html', {
         'page_obj': page_obj,
@@ -127,23 +161,64 @@ def blog_list(request):
         'categories': categories,
         'current_category': category,
         'search_query': search_query,
+        'api_mode': True,  # Flag to indicate we're using API
     })
 
 
 def blog_detail(request, slug):
     """
-    Display detailed view of a single blog post
+    Display detailed view of a single blog post from API
     """
-    blog = get_object_or_404(create_blog, slug=slug)
+    # Get blog from API by slug
+    try:
+        response = requests.get(f"{REST_API_BASE_URL}/blogs/slug/{slug}/", timeout=10)
+        if response.status_code == 200:
+            blog = response.json()
+        else:
+            # Try to get all blogs and find by slug
+            api_data = get_blogs_from_api()
+            blogs = []
+            if api_data and 'results' in api_data:
+                blogs = api_data['results']
+            elif api_data and isinstance(api_data, list):
+                blogs = api_data
+            
+            blog = None
+            for b in blogs:
+                if b.get('slug') == slug:
+                    blog = b
+                    break
+            
+            if not blog:
+                messages.error(request, 'Blog post not found.')
+                return redirect('blog_list')
+    except requests.RequestException:
+        messages.error(request, 'Error connecting to API.')
+        return redirect('blog_list')
     
     # Get related blogs (same category, excluding current blog)
-    related_blogs = create_blog.objects.filter(
-        Category=blog.Category
-    ).exclude(id=blog.id).order_by('-date')[:3]
+    related_blogs = []
+    try:
+        api_data = get_blogs_from_api()
+        all_blogs = []
+        if api_data and 'results' in api_data:
+            all_blogs = api_data['results']
+        elif api_data and isinstance(api_data, list):
+            all_blogs = api_data
+        
+        # Filter for same category, exclude current blog
+        current_category = blog.get('Category', '')
+        related_blogs = [
+            b for b in all_blogs 
+            if b.get('Category') == current_category and b.get('slug') != slug
+        ][:3]  # Limit to 3 related blogs
+    except:
+        pass
     
     return render(request, 'blog/detail.html', {
         'blog': blog,
-        'related_blogs': related_blogs
+        'related_blogs': related_blogs,
+        'api_mode': True
     })
 
 
