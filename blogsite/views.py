@@ -18,9 +18,14 @@ def get_blogs_from_api():
         return None
 
 def home(request):
-    """Render the home page with latest blog posts from API"""
+    """Render the home page with latest blog posts from API or local database"""
+    # Import local blog model for fallback
+    from blog.models import create_blog
+    
     # Get latest 6 blog posts from API for the home page
     latest_blogs = []
+    api_mode = True
+    
     try:
         api_data = get_blogs_from_api()
         if api_data and 'results' in api_data:
@@ -39,12 +44,20 @@ def home(request):
                 else:
                     blog['image_url'] = image_path
     except:
-        # If API fails, show empty list
-        latest_blogs = []
+        # If API fails, fall back to local database
+        api_mode = False
+        try:
+            latest_blogs = list(create_blog.objects.all().order_by('-date')[:6])
+        except:
+            latest_blogs = []
+    
+    # Set featured post (first blog if available)
+    featured_post = latest_blogs[0] if latest_blogs else None
     
     return render(request, 'home.html', {
         'latest_blogs': latest_blogs,
-        'api_mode': True
+        'featured_post': featured_post,
+        'api_mode': api_mode
     })
 
 def about(request):

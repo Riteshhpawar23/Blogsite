@@ -61,11 +61,18 @@ def get_blogs_from_api():
     Fetch blogs from REST API
     """
     try:
+        print(f"Fetching blogs from: {REST_API_BASE_URL}/blogs/")
         response = requests.get(f"{REST_API_BASE_URL}/blogs/", timeout=10)
+        print(f"API Response Status: {response.status_code}")
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+            print(f"API Response Data: {data}")
+            return data
+        else:
+            print(f"API Error Response: {response.text}")
         return None
-    except requests.RequestException:
+    except requests.RequestException as e:
+        print(f"Connection Error: {str(e)}")
         return None
 
 # Create your views here.
@@ -124,20 +131,8 @@ def blog_list(request):
         blogs = api_data['results']
     elif api_data and isinstance(api_data, list):
         blogs = api_data
-    
-    # Process image URLs for each blog
-    for blog in blogs:
-        if blog.get('image') and not blog.get('image_url'):
-            # If no image_url but has image, construct the full URL
-            image_path = blog['image']
-            if image_path.startswith('/'):
-                blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
-            elif not image_path.startswith('http'):
-                blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
-            else:
-                blog['image_url'] = image_path
-    
-    # Filter by category if provided (client-side filtering)
+
+    # The API already provides image_url fields, so we don't need additional processing    # Filter by category if provided (client-side filtering)
     category = request.GET.get('category')
     if category and blogs:
         blogs = [blog for blog in blogs if blog.get('Category', '').lower() == category.lower()]
@@ -208,15 +203,7 @@ def blog_detail(request, slug):
         messages.error(request, 'Error connecting to API.')
         return redirect('blog_list')
     
-    # Process image URL for the main blog
-    if blog and blog.get('image') and not blog.get('image_url'):
-        image_path = blog['image']
-        if image_path.startswith('/'):
-            blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
-        elif not image_path.startswith('http'):
-            blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
-        else:
-            blog['image_url'] = image_path
+    # The API already provides image_url fields, so no additional processing needed
     
     # Get related blogs (same category, excluding current blog)
     related_blogs = []
@@ -235,16 +222,7 @@ def blog_detail(request, slug):
             if b.get('Category') == current_category and b.get('slug') != slug
         ][:3]  # Limit to 3 related blogs
         
-        # Process image URLs for related blogs
-        for rel_blog in related_blogs:
-            if rel_blog.get('image') and not rel_blog.get('image_url'):
-                image_path = rel_blog['image']
-                if image_path.startswith('/'):
-                    rel_blog['image_url'] = f"http://127.0.0.1:8000{image_path}"
-                elif not image_path.startswith('http'):
-                    rel_blog['image_url'] = f"http://127.0.0.1:8000/media/{image_path}"
-                else:
-                    rel_blog['image_url'] = image_path
+        # The API already provides image_url fields for related blogs too
     except:
         pass
     
