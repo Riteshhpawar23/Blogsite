@@ -5,14 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Awesome Blog | Home</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
         }
     </script>
-    <!-- Dark mode script - must run before body loads -->
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -20,241 +18,14 @@
             document.documentElement.classList.remove('dark');
         }
     </script>
-    <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Custom Stylesheets -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <style>
-        /* Custom font for the entire page */
         body {
             font-family: 'Inter', sans-serif;
         }
-    </style>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
-
-    <!-- Header Section -->
-    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div>
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900 dark:text-white">MyBlog</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-6">
-
-
-                   {% comment %} 2. Template Tags ({% ... %})
-
-                These control logic (conditions, loops, loading files, etc.).  {% endcomment %}
-
-                <a href="{% url 'home' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 font-medium">Home</a>
-                <a href="{% url 'about' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">About</a>
-                <a href="{% url 'categories' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Categories</a>
-                <a href="{% url 'contact' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Contact</a>
-                <a href="/admin/login/" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Login</a>
-                <a href="{% url 'blog_list' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">Create Blog</a>
-                
-                <!-- Dark Theme Toggle -->
-                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition duration-300" title="Toggle Dark Mode">
-                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                    </svg>
-                    <svg id="theme-toggle-light-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 2L13.09 8.26L20 9L14 14.74L15.18 21.02L10 17.77L4.82 21.02L6 14.74L0 9L6.91 8.26L10 2Z" fill-rule="evenodd" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                </button>
-            </div>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
-             <a href="{% url 'home' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300 font-medium">Home</a>
-             <a href="{% url 'about' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">About</a>
-             <a href="{% url 'categories' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
-             <a href="{% url 'contact' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
-             <a href="/admin/login/" class="block text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-             <a href="{% url 'blog_list' %}" class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-center">Create Blog</a>
-             
-             <!-- Mobile Dark Theme Toggle -->
-             <button id="theme-toggle-mobile" class="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition duration-300 w-full text-left">
-                <svg id="mobile-theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                </svg>
-                <svg id="mobile-theme-toggle-light-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 2L13.09 8.26L20 9L14 14.74L15.18 21.02L10 17.77L4.82 21.02L6 14.74L0 9L6.91 8.26L10 2Z" fill-rule="evenodd" clip-rule="evenodd"></path>
-                </svg>
-                <span>Dark Mode</span>
-             </button>
-        </div>
-    </header>
-
-    <!-- Hero Section for Featured Post -->
-    <section class="relative bg-gray-800 text-white py-20 sm:py-32">
-        <div class="absolute inset-0">
-            <img src="https://placehold.co/1200x500/334155/e2e8f0?text=Featured+Post" 
-                 alt="Featured post background" 
-                 class="w-full h-full object-cover opacity-30">
-        </div>
-        <div class="relative container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Exploring the Wonders of Modern Web Development</h1>
-            <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">A deep dive into the latest frameworks and technologies shaping the future of the web.</p>
-            <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-lg">Read The Article</a>
-        </div>
-    </section>
-
-    <!-- Main Content Area with Blog Posts -->
-    <main class="py-16">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Latest Posts</h2>
-            
-            {% if latest_blogs %}
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {% for post in latest_blogs %}
-                        <!-- Blog Post Card -->
-                        <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
-                            {% if post.image_url %}
-                                <img src="{{ post.image_url }}" 
-                                     alt="{{ post.title }}" 
-                                     class="w-full h-56 object-cover">
-                            {% elif post.image %}
-                                <img src="http://127.0.0.1:8000{{ post.image }}" 
-                                     alt="{{ post.title }}" 
-                                     class="w-full h-56 object-cover">
-                            {% else %}
-                                <div class="w-full h-56 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
-                                    <svg class="w-16 h-16 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                            
-                            <div class="p-6">
-                                <div class="flex items-center mb-2">
-                                    <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2">
-                                        {{ post.Category|title }}
-                                    </span>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ post.date|date:"M d, Y" }}</p>
-                                </div>
-                                
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">By {{ post.Author_name }}</p>
-                                
-                                <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">
-                                    <a href="{% url 'blog_detail' post.slug %}" class="line-clamp-2">{{ post.title }}</a>
-                                </h3>
-                                
-                                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 line-clamp-3">
-                                    {{ post.content|truncatewords:20 }}
-                                </p>
-                                
-                                <a href="{% url 'blog_detail' post.slug %}" class="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition duration-300">Read More &rarr;</a>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-                
-                <!-- View All Posts Button -->
-                <div class="text-center mt-12">
-                    <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
-                        View All Posts
-                    </a>
-                </div>
-            {% else %}
-                <!-- No Blog Posts Message -->
-                <div class="text-center py-16">
-                    <svg class="mx-auto h-24 w-24 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <h3 class="text-2xl font-medium text-gray-900 mb-2">No Blog Posts Yet</h3>
-                    <p class="text-gray-600 mb-6">Be the first to create a blog post!</p>
-                    <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
-                        Create Your First Post
-                    </a>
-                </div>
-            {% endif %}
-        </div>
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-gray-300 mt-10">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <div class="flex justify-center space-x-6 mb-4">
-                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
-                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
-                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
-            </div>
-            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // JavaScript for mobile menu toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Dark theme toggle functionality
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
-        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-        const mobileThemeToggleDarkIcon = document.getElementById('mobile-theme-toggle-dark-icon');
-        const mobileThemeToggleLightIcon = document.getElementById('mobile-theme-toggle-light-icon');
-
-        // Function to toggle theme
-        function toggleTheme() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                // Show light icon, hide dark icon
-                themeToggleLightIcon.classList.remove('hidden');
-                themeToggleDarkIcon.classList.add('hidden');
-                mobileThemeToggleLightIcon.classList.remove('hidden');
-                mobileThemeToggleDarkIcon.classList.add('hidden');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                // Show dark icon, hide light icon
-                themeToggleLightIcon.classList.add('hidden');
-                themeToggleDarkIcon.classList.remove('hidden');
-                mobileThemeToggleLightIcon.classList.add('hidden');
-                mobileThemeToggleDarkIcon.classList.remove('hidden');
-            }
-        }
-
-        // Set initial icon state
-        function setInitialIconState() {
-            if (document.documentElement.classList.contains('dark')) {
-                themeToggleLightIcon.classList.add('hidden');
-                themeToggleDarkIcon.classList.remove('hidden');
-                mobileThemeToggleLightIcon.classList.add('hidden');
-                mobileThemeToggleDarkIcon.classList.remove('hidden');
-            } else {
-                themeToggleLightIcon.classList.remove('hidden');
-                themeToggleDarkIcon.classList.add('hidden');
-                mobileThemeToggleLightIcon.classList.remove('hidden');
-                mobileThemeToggleDarkIcon.classList.add('hidden');
-            }
-        }
-
-        // Event listeners
-        themeToggleBtn.addEventListener('click', toggleTheme);
-        themeToggleMobileBtn.addEventListener('click', toggleTheme);
-
-        // Set initial state when page loads
-        document.addEventListener('DOMContentLoaded', setInitialIconState);
-    </script>
-
-    <!-- Add CSS for line-clamp utilities -->
-    <style>
         .line-clamp-2 {
             display: -webkit-box;
             -webkit-line-clamp: 2;
@@ -268,6 +39,209 @@
             overflow: hidden;
         }
     </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
+        <nav class="px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div>
+                    <button id="menu-btn" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+                <div>
+                    <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900 dark:text-white">MyBlog</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <a href="{% url 'admin:login' %}" class="hidden md:block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Login</a>
+                <a href="{% url 'blog_list' %}" class="hidden md:block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">Create Blog</a>
+                
+                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition duration-300" title="Toggle Dark Mode">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 shadow-md">
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Home</a>
+                <a href="{% url 'about' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">About</a>
+                <a href="{% url 'categories' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Categories</a>
+                <a href="{% url 'contact' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Contact</a>
+                <a href="{% url 'admin:login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700">Login</a>
+                <a href="{% url 'blog_list' %}" class="block w-full text-left mt-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-center">Create Blog</a>
+             </div>
+             <div class="px-5 py-3 border-t border-gray-200 dark:border-gray-700">
+                <button id="theme-toggle-mobile" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 w-full text-left">
+                    <svg id="mobile-theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="mobile-theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                    <span>Toggle Mode</span>
+                </button>
+             </div>
+        </div>
+    </header>
+
+    <div class="flex">
+
+        <aside id="desktop-sidebar" class="w-64 bg-white dark:bg-gray-800 shadow-lg p-6 fixed md:relative h-screen md:h-auto -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+            <nav class="space-y-4">
+                <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Menu</h3>
+                <a href="{% url 'home' %}" class="flex items-center p-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Home</a>
+                <a href="{% url 'about' %}" class="flex items-center p-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">About</a>
+                <a href="{% url 'categories' %}" class="flex items-center p-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Categories</a>
+                <a href="{% url 'contact' %}" class="flex items-center p-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Contact</a>
+            </nav>
+        </aside>
+
+        <div id="main-content" class="flex-grow w-full transition-all duration-300 ease-in-out">
+            
+            {% if featured_post %}
+            <section class="relative bg-gray-800 text-white py-20 sm:py-32">
+                <div class="absolute inset-0">
+                    <img src="{{ featured_post.image.url }}" 
+                         alt="Background for {{ featured_post.title }}" 
+                         class="w-full h-full object-cover opacity-30">
+                </div>
+                <div class="relative container mx-auto px-6 text-center">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">{{ featured_post.title }}</h1>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">{{ featured_post.content|truncatewords:25 }}</p>
+                    <a href="{% url 'blog_detail' featured_post.slug %}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 text-lg shadow-lg">Read The Article</a>
+                </div>
+            </section>
+            {% endif %}
+        
+            <main class="py-16">
+                <div class="container mx-auto px-6">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 dark:text-white">Latest Posts</h2>
+                    
+                    {% if latest_blogs %}
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                            {% for post in latest_blogs %}
+                                <article class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300">
+                                    {% if post.image %}
+                                        <img src="{{ post.image.url }}" 
+                                             alt="{{ post.title }}" 
+                                             class="w-full h-56 object-cover">
+                                    {% else %}
+                                        <div class="w-full h-56 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center">
+                                            <svg class="w-16 h-16 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="p-6">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+                                                {{ post.Category|title }}
+                                            </span>
+                                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ post.date|date:"M d, Y" }}</p>
+                                        </div>
+                                        
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">By {{ post.Author_name }}</p>
+                                        
+                                        <h3 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">
+                                            <a href="{% url 'blog_detail' post.slug %}" class="line-clamp-2 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">{{ post.title }}</a>
+                                        </h3>
+                                        
+                                        <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4 line-clamp-3">
+                                            {{ post.content|truncatewords:20 }}
+                                        </p>
+                                        
+                                        <a href="{% url 'blog_detail' post.slug %}" class="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition duration-300">Read More &rarr;</a>
+                                    </div>
+                                </article>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="text-center mt-12">
+                            <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                                View All Posts
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-16">
+                            <svg class="mx-auto h-24 w-24 text-gray-400 dark:text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <h3 class="text-2xl font-medium text-gray-900 dark:text-white mb-2">No Blog Posts Yet</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6">Be the first to create a blog post!</p>
+                            <a href="{% url 'blog_list' %}" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
+                                Create Your First Post
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </main>
+        </div> </div> <footer class="bg-gray-800 dark:bg-gray-900 text-gray-300">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
+                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
+                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
+            </div>
+            <p>&copy; {% now "Y" %} MyBlog. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- MODIFIED: Menu and Sidebar Toggle ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const desktopSidebar = document.getElementById('desktop-sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            menuBtn.addEventListener('click', () => {
+                // Toggle mobile menu (for small screens)
+                mobileMenu.classList.toggle('hidden');
+
+                // Toggle desktop sidebar (for medium screens and up)
+                desktopSidebar.classList.toggle('-translate-x-full');
+                
+                // Optional: Push main content when sidebar is open on desktop
+                // This gives a smoother experience than just an overlay
+                if (!desktopSidebar.classList.contains('-translate-x-full')) {
+                    mainContent.classList.add('md:ml-64');
+                } else {
+                    mainContent.classList.remove('md:ml-64');
+                }
+            });
+
+            // --- UNCHANGED: Dark Theme Toggle ---
+            const themeTogglers = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+            const lightIcons = document.querySelectorAll('#theme-toggle-light-icon, #mobile-theme-toggle-light-icon');
+            const darkIcons = document.querySelectorAll('#theme-toggle-dark-icon, #mobile-theme-toggle-dark-icon');
+            
+            const isDark = () => document.documentElement.classList.contains('dark');
+
+            const updateThemeIcons = () => {
+                const showDark = isDark();
+                darkIcons.forEach(icon => icon.classList.toggle('hidden', !showDark));
+                lightIcons.forEach(icon => icon.classList.toggle('hidden', showDark));
+            };
+
+            const toggleTheme = () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark() ? 'dark' : 'light');
+                updateThemeIcons();
+            };
+
+            themeTogglers.forEach(btn => btn.addEventListener('click', toggleTheme));
+            
+            // Set initial state of icons when page loads
+            updateThemeIcons();
+
+            // NEW: Set initial state of main content margin based on sidebar visibility
+            if (window.innerWidth >= 768) { // md breakpoint
+                 mainContent.classList.add('md:ml-64');
+            }
+        });
+    </script>
 
 </body>
 </html>

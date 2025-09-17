@@ -1,47 +1,82 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Posts | MyBlog</title>
+    <title>Create Blog Post | MyBlog</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- Dark mode script - must run before body -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
 
     <!-- Header Section -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <header class="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 transition-colors duration-300">
+        <!-- CORRECTED: Removed 'container' and 'mx-auto' and added 'px-6' for a full-width nav with padding -->
+        <nav class="px-6 py-4 flex justify-between items-center">
             <div>
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900 dark:text-white">MyBlog</a>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                <a href="{% url 'about' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">About</a>
-                <a href="{% url 'categories' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
-                <a href="{% url 'contact' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
-                <a href="/admin/login/" class="text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-                <a href="{% url 'blog_list' %}" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create</a>
+                <a href="{% url 'home' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Home</a>
+                <a href="{% url 'about' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">About</a>
+                <a href="{% url 'categories' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Categories</a>
+                <a href="{% url 'contact' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Contact</a>
+                <a href="{% url 'admin:login' %}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Login</a>
+                <!-- IMPROVEMENT: Styled 'Create Blog' to be a button for consistency -->
+                <a href="{% url 'blog_list' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">Create Blog</a>
+                
+                <!-- Dark Theme Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition duration-300" title="Toggle Dark Mode">
+                    <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
             </div>
             <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
-             <a href="{% url 'home' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-             <a href="{% url 'about' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">About</a>
-             <a href="{% url 'categories' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
-             <a href="{% url 'contact' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
-             <a href="/admin/login/" class="block text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-             <a href="{% url 'blog_list' %}" class="block text-blue-600 hover:text-blue-700 transition duration-300 font-medium">Create</a>
+           <a href="{% url 'home' %}" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Home</a>
+           <a href="{% url 'about' %}" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">About</a>
+           <a href="{% url 'categories' %}" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Categories</a>
+           <a href="{% url 'contact' %}" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Contact</a>
+           <a href="{% url 'admin:login' %}" class="block text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300">Login</a>
+           <a href="{% url 'blog_list' %}" class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-center">Create Blog</a>
+           <!-- Mobile Dark Theme Toggle -->
+            <button id="theme-toggle-mobile" class="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition duration-300 w-full text-left">
+                <svg id="mobile-theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                <svg id="mobile-theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM3 11a1 1 0 100-2H2a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                <span>Toggle Mode</span>
+            </button>
         </div>
     </header>
 
@@ -50,89 +85,83 @@
         <div class="container mx-auto px-6 max-w-4xl">
             <!-- Page Header -->
             <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Create Your Blog Post</h1>
-                <p class="text-lg text-gray-600">Share your thoughts and ideas with the world</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4">Create Your Blog Post</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400">Share your thoughts and ideas with the world</p>
             </div>
 
-            <!-- Success/Error Messages -->
+            <!-- Messages -->
             {% if messages %}
                 <div class="mb-8">
                     {% for message in messages %}
-                        {% if message.tags == 'success' %}
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                                {{ message }}
-                            </div>
-                        {% elif message.tags == 'error' %}
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                {{ message }}
-                            </div>
-                        {% endif %}
+                        <div class="p-4 mb-4 text-sm rounded-lg {% if message.tags == 'success' %} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 {% else %} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 {% endif %}" role="alert">
+                           {{ message }}
+                        </div>
                     {% endfor %}
                 </div>
             {% endif %}
 
             <!-- Create Form -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
                 <form method="POST" enctype="multipart/form-data" class="space-y-6">
                     {% csrf_token %}
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.title.label }}</label>
+                            <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.title.label }}</label>
                             {{ form.title }}
                             {% if form.title.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</div>
+                                <div class="text-red-500 text-sm mt-1">{{ form.title.errors.0 }}</div>
                             {% endif %}
                         </div>
                         
                         <div>
-                            <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.slug.label }}</label>
+                            <label for="{{ form.slug.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.slug.label }}</label>
                             {{ form.slug }}
                             {% if form.slug.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.slug.errors.0 }}</div>
+                                <div class="text-red-500 text-sm mt-1">{{ form.slug.errors.0 }}</div>
                             {% endif %}
                         </div>
                     </div>
                     
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label for="{{ form.Author_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Author_name.label }}</label>
+                            <label for="{{ form.Author_name.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.Author_name.label }}</label>
                             {{ form.Author_name }}
                             {% if form.Author_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.Author_name.errors.0 }}</div>
+                                <div class="text-red-500 text-sm mt-1">{{ form.Author_name.errors.0 }}</div>
                             {% endif %}
                         </div>
                         
                         <div>
-                            <label for="{{ form.Category.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.Category.label }}</label>
+                            <label for="{{ form.Category.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.Category.label }}</label>
                             {{ form.Category }}
                             {% if form.Category.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.Category.errors.0 }}</div>
+                                <div class="text-red-500 text-sm mt-1">{{ form.Category.errors.0 }}</div>
                             {% endif %}
                         </div>
                     </div>
                     
                     <div>
-                        <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.content.label }}</label>
+                        <label for="{{ form.content.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.content.label }}</label>
                         {{ form.content }}
                         {% if form.content.errors %}
-                            <div class="text-red-600 text-sm mt-1">{{ form.content.errors.0 }}</div>
+                            <div class="text-red-500 text-sm mt-1">{{ form.content.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
                     <div>
-                        <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.image.label }}</label>
+                        <label for="{{ form.image.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{{ form.image.label }}</label>
                         {{ form.image }}
                         {% if form.image.errors %}
-                            <div class="text-red-600 text-sm mt-1">{{ form.image.errors.0 }}</div>
+                            <div class="text-red-500 text-sm mt-1">{{ form.image.errors.0 }}</div>
                         {% endif %}
                     </div>
                     
-                    <div class="flex justify-end space-x-4">
-                        <a href="{% url 'home' %}" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-300 font-medium">
+                    <div class="flex justify-end space-x-4 pt-4">
+                        <a href="{% url 'home' %}" class="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-6 py-3 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition duration-300 font-medium">
                             Cancel
                         </a>
-                        <button type="submit" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300 font-medium">
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">
                             Create Post
                         </button>
                     </div>
@@ -141,43 +170,54 @@
         </div>
     </main>
 
-
     <!-- Footer Section -->
-    <footer class="bg-gray-800 text-gray-300">
+    <footer class="bg-gray-800 dark:bg-gray-900 text-gray-300">
         <div class="container mx-auto px-6 py-8 text-center">
             <div class="flex justify-center space-x-6 mb-4">
                 <a href="#" class="hover:text-white transition duration-300">Twitter</a>
                 <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
                 <a href="#" class="hover:text-white transition duration-300">GitHub</a>
             </div>
-            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
+            <!-- IMPROVEMENT: Dynamic copyright year -->
+            <p>&copy; {% now "Y" %} MyBlog. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- Add Tailwind line-clamp utilities -->
-    <style>
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
-
-    <!-- JavaScript for mobile menu toggle -->
+    <!-- JavaScript for menu and dark mode -->
     <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            // Dark Theme Toggle
+            const themeTogglers = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+            const lightIcons = document.querySelectorAll('#theme-toggle-light-icon, #mobile-theme-toggle-light-icon');
+            const darkIcons = document.querySelectorAll('#theme-toggle-dark-icon, #mobile-theme-toggle-dark-icon');
+            
+            const isDark = () => document.documentElement.classList.contains('dark');
+
+            const updateThemeIcons = () => {
+                const showDark = isDark();
+                darkIcons.forEach(icon => icon.classList.toggle('hidden', !showDark));
+                lightIcons.forEach(icon => icon.classList.toggle('hidden', showDark));
+            };
+
+            const toggleTheme = () => {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark() ? 'dark' : 'light');
+                updateThemeIcons();
+            };
+
+            themeTogglers.forEach(btn => btn.addEventListener('click', toggleTheme));
+            
+            // Set initial icon state
+            updateThemeIcons();
         });
     </script>
 
