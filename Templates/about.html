@@ -5,141 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | My Awesome Blog</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom Stylesheets -->
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- Header Section -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div>
-                <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+        <nav class="px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div>
+                    <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+                <div>
+                    <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+                </div>
             </div>
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-                <a href="{% url 'about' %}" class="text-blue-600 hover:text-blue-700 transition duration-300 font-medium">About</a>
-                <a href="{% url 'categories' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
-                <a href="{% url 'contact' %}" class="text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
-                <a href="/admin/login/" class="text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-                <a href="{% url 'blog_list' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">Create Blog</a>
-            </div>
-            <!-- Mobile Menu Button -->
-            <div class="md:hidden">
-                <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            
+            <div class="flex items-center space-x-6">
+                <button class="hidden md:block text-gray-600 hover:text-gray-900 focus:outline-none" title="Notifications">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V5a1 1 0 00-2 0v.083A6 6 0 006 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                 </button>
+                <a href="{% url 'blog_list' %}" class="hidden md:block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium">Create Blog</a>
+                <a href="{% url 'admin:login' %}" class="hidden md:block text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
             </div>
         </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden px-6 pb-4 space-y-2">
-             <a href="{% url 'home' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Home</a>
-             <a href="{% url 'about' %}" class="block text-blue-600 hover:text-blue-700 transition duration-300 font-medium">About</a>
-             <a href="{% url 'categories' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Categories</a>
-             <a href="{% url 'contact' %}" class="block text-gray-600 hover:text-blue-600 transition duration-300">Contact</a>
-             <a href="/admin/login/" class="block text-gray-600 hover:text-blue-600 transition duration-300">Login</a>
-             <a href="{% url 'blog_list' %}" class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-center">Create Blog</a>
+
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-md">
+             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</a>
+                <a href="{% url 'about' %}" class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 bg-blue-50">About</a>
+                <a href="{% url 'categories' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Categories</a>
+                <a href="{% url 'contact' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Contact</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Notifications</a>
+                <a href="{% url 'blog_list' %}" class="block w-full text-left mt-2 bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition duration-300 font-medium text-center">Create Blog</a>
+                <a href="{% url 'admin:login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Login</a>
+             </div>
         </div>
     </header>
 
-    <!-- Main Content for About Page -->
-    <main>
-        <!-- Page Header -->
-        <section class="bg-blue-600 text-white py-16">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold">About MyBlog</h1>
-                <p class="text-lg md:text-xl text-blue-100 mt-4">Learn more about our journey, our mission, and the team behind the articles.</p>
-            </div>
-        </section>
+    <div class="flex">
 
-        <!-- Our Mission Section -->
-        <section class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://placehold.co/600x400/e0f2fe/0c4a6e?text=Our+Mission" alt="Team working collaboratively" class="rounded-lg shadow-xl">
-                </div>
-                <div class="prose max-w-none lg:prose-lg">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
-                    <p class="text-gray-600">
-                        At MyBlog, our mission is to demystify the world of technology and web development. We believe that knowledge should be accessible to everyone, from the curious beginner to the seasoned professional. We strive to create high-quality, engaging, and practical content that empowers our readers to learn, create, and innovate.
-                    </p>
-                    <p class="text-gray-600">
-                        We are passionate about building a community where developers can find reliable information, share their experiences, and grow their skills. Every article is crafted with care, ensuring it's not only informative but also inspiring.
-                    </p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Meet the Team Section -->
-        <section class="py-16 md:py-24 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Meet the Team</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
-                    
-                    <!-- Team Member 1 -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-                        <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-200 bg-blue-600 flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">RP</span>
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900">Ritesh Pawar</h3>
-                        <p class="text-blue-600 font-medium mb-2">Lead Developer & Founder</p>
-                        <p class="text-gray-600">Ritesh is a passionate full-stack developer with expertise in Django and modern web technologies. He founded MyBlog to share knowledge and create meaningful content for the developer community.</p>
+        <aside id="desktop-sidebar" class="w-56 bg-white shadow-lg p-6 fixed h-screen -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-40">
+            <nav class="space-y-4">
+                <h3 class="text-lg font-semibold text-gray-500 uppercase tracking-wider">Menu</h3>
+                <a href="{% url 'home' %}" class="flex items-center p-2 text-base font-medium text-gray-700 rounded-lg hover:bg-gray-100">Home</a>
+                <a href="{% url 'about' %}" class="flex items-center p-2 text-base font-medium text-blue-700 bg-blue-100 rounded-lg">About</a>
+                <a href="{% url 'categories' %}" class="flex items-center p-2 text-base font-medium text-gray-700 rounded-lg hover:bg-gray-100">Categories</a>
+                <a href="{% url 'contact' %}" class="flex items-center p-2 text-base font-medium text-gray-700 rounded-lg hover:bg-gray-100">Contact</a>
+            </nav>
+        </aside>
+
+        <div id="main-content" class="flex-grow w-full md:ml-56 transition-all duration-300 ease-in-out">
+            <main>
+                <section class="bg-blue-600 text-white py-16">
+                    <div class="container mx-auto px-6 text-center">
+                        <h1 class="text-4xl md:text-5xl font-extrabold">About MyBlog</h1>
+                        <p class="text-lg md:text-xl text-blue-100 mt-4">Learn more about our journey, our mission, and the team behind the articles.</p>
                     </div>
+                </section>
 
-                    <!-- Team Member 2 -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-                        <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-purple-200 bg-purple-600 flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">PN</span>
+                <section class="py-16 md:py-24 bg-white">
+                    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <img src="https://placehold.co/600x400/e0f2fe/0c4a6e?text=Our+Mission" alt="Team working collaboratively" class="rounded-lg shadow-xl">
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">Prachi Nimbalkar</h3>
-                        <p class="text-purple-600 font-medium mb-2">Content Manager</p>
-                        <p class="text-gray-600">Prachi specializes in creating engaging and informative content. She ensures that every article meets high-quality standards and resonates with our diverse audience of developers and tech enthusiasts.</p>
-                    </div>
-
-                    <!-- Team Member 3 -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-                        <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-green-200 bg-green-600 flex items-center justify-center">
-                            <span class="text-white font-bold text-2xl">KR</span>
+                        <div class="prose max-w-none lg:prose-lg">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
+                            <p class="text-gray-600">
+                                At MyBlog, our mission is to demystify the world of technology and web development. We believe that knowledge should be accessible to everyone, from the curious beginner to the seasoned professional. We strive to create high-quality, engaging, and practical content that empowers our readers to learn, create, and innovate.
+                            </p>
+                            <p class="text-gray-600">
+                                We are passionate about building a community where developers can find reliable information, share their experiences, and grow their skills. Every article is crafted with care, ensuring it's not only informative but also inspiring.
+                            </p>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900">Kewal Rane</h3>
-                        <p class="text-green-600 font-medium mb-2">UI/UX Designer</p>
-                        <p class="text-gray-600">Kewal brings creativity and user-centered design thinking to our platform. With a keen eye for aesthetics and usability, he ensures our blog provides an exceptional user experience.</p>
                     </div>
+                </section>
+                
+                <section class="py-16 md:py-24 bg-gray-50">
+                    <div class="container mx-auto px-6">
+                        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Meet the Team</h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 text-center">
+                            
+                            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-200 bg-blue-600 flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">RP</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Ritesh Pawar</h3>
+                                <p class="text-blue-600 font-medium mb-2">Lead Developer & Founder</p>
+                                <p class="text-gray-600">Ritesh is a passionate full-stack developer with expertise in Django and modern web technologies. He founded MyBlog to share knowledge and create meaningful content for the developer community.</p>
+                            </div>
 
+                            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-purple-200 bg-purple-600 flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">PN</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Prachi Nimbalkar</h3>
+                                <p class="text-purple-600 font-medium mb-2">Content Manager</p>
+                                <p class="text-gray-600">Prachi specializes in creating engaging and informative content. She ensures that every article meets high-quality standards and resonates with our diverse audience of developers and tech enthusiasts.</p>
+                            </div>
+
+                            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+                                <div class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-green-200 bg-green-600 flex items-center justify-center">
+                                    <span class="text-white font-bold text-2xl">KR</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900">Kewal Rane</h3>
+                                <p class="text-green-600 font-medium mb-2">UI/UX Designer</p>
+                                <p class="text-gray-600">Kewal brings creativity and user-centered design thinking to our platform. With a keen eye for aesthetics and usability, he ensures our blog provides an exceptional user experience.</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="bg-gray-800 text-gray-300">
+                <div class="container mx-auto px-6 py-8 text-center">
+                    <div class="flex justify-center space-x-6 mb-4">
+                        <a href="#" class="hover:text-white transition duration-300">Twitter</a>
+                        <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
+                        <a href="#" class="hover:text-white transition duration-300">GitHub</a>
+                    </div>
+                    <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
                 </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-gray-300">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <div class="flex justify-center space-x-6 mb-4">
-                <a href="#" class="hover:text-white transition duration-300">Twitter</a>
-                <a href="#" class="hover:text-white transition duration-300">LinkedIn</a>
-                <a href="#" class="hover:text-white transition duration-300">GitHub</a>
-            </div>
-            <p>&copy; 2025 MyBlog. All Rights Reserved.</p>
+            </footer>
         </div>
-    </footer>
+    </div>
 
     <script>
-        // JavaScript for mobile menu toggle
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        // JavaScript for mobile menu and sidebar toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const desktopSidebar = document.getElementById('desktop-sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            menuBtn.addEventListener('click', () => {
+                // Toggle mobile menu (for small screens)
+                mobileMenu.classList.toggle('hidden');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+                // Toggle desktop sidebar by toggling the responsive classes
+                desktopSidebar.classList.toggle('md:translate-x-0');
+                mainContent.classList.toggle('md:ml-56');
+            });
         });
     </script>
 
 </body>
 </html>
-
