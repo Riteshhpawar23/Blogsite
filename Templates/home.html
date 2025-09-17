@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'search.css' %}">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -37,7 +38,7 @@
 
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-6">
                 <div>
                     <button id="menu-btn" class="text-gray-600 hover:text-gray-900 focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -45,6 +46,12 @@
                 </div>
                 <div>
                     <a href="{% url 'home' %}" class="text-2xl font-bold text-gray-900">MyBlog</a>
+                </div>
+                 <div class="hidden md:block relative">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input type="text" placeholder="Search articles..." class="md:w-96 bg-gray-100 border border-transparent rounded-full py-2 pl-10 pr-4 text-gray-700 focus:outline-none focus:bg-white focus:border-blue-500 transition duration-300">
                 </div>
             </div>
             
@@ -59,6 +66,15 @@
 
         <div id="mobile-menu" class="md:hidden hidden bg-white shadow-md">
              <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <div class="px-1 py-2">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </span>
+                        <input type="text" placeholder="Search..." class="w-full bg-gray-100 border border-transparent rounded-full py-2 pl-10 pr-4 text-gray-700 focus:outline-none focus:bg-white focus:border-gray-300">
+                    </div>
+                </div>
+
                 <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Home</a>
                 <a href="{% url 'about' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">About</a>
                 <a href="{% url 'categories' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Categories</a>

@@ -1,0 +1,11 @@
+/* static/search.css */
+  /* This file is for custom CSS related to the search functionality.
+  Currently, all styles are handled by Tailwind CSS classes in the HTML template.
+  You can add custom styles here if needed.
+
+  Example: */
+  
+  .custom-search-input {
+      border: 1px solid 
+      /* #your-color; */
+  }
